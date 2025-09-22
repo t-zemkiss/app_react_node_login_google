@@ -1,8 +1,24 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const apiUrlGoogle = import.meta.env.VITE_URL_BACKEND_GOOGLE_AUTH;
+const apiUrl = import.meta.env.VITE_URL_BACKEND_API;
 
 const Login = () => {
+
+  useEffect(() => {
+
+   fetch(`${apiUrl}/users/me`,{
+    credentials:'include',
+   })
+   .then(res=>res.json())
+   .then(data=>
+    console.log('data',data)
+   );
+
+  },[]);
+
+
   const handleBtnGoogle = (urlAuth) => {
     console.log(urlAuth);
     window.location.href = urlAuth;

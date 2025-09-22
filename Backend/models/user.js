@@ -27,6 +27,18 @@ const UserModel = {
       return null;
     }
   },
+  
+  getUserById: async (id) => {
+    try {
+      const [rows] = await pool.query("SELECT * FROM users WHERE id=?", [
+        id,
+      ]);
+      return rows;
+    } catch (err) {
+      console.error("Error en getUserById:", err);
+      return null;
+    }
+  },
 
   createUser: async (data) => {
     try {
