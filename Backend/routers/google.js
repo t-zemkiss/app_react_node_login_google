@@ -1,7 +1,8 @@
 const router = require("express").Router();
 require("dotenv").config();
 const { OAuth2Client } = require("google-auth-library");
-const fetch = require("node-fetch")
+const fetch = require("node-fetch");
+const UserModel = require("../models/user");
 
 const oAuth2Client = new OAuth2Client({
   clientId: process.env.GOOGLE_CLIENT_ID || "",
@@ -39,6 +40,10 @@ router.get("/auth", async (req, res) => {
       const userInfo = await resUser.json();
 
       console.log("Usuario Google:", userInfo);
+
+      let infoDb = await UserModel.getUserByEmail(userInfo.email);
+      console.log("infoDb", infoDb);
+
       res.json({ tokens, userInfo });
     } catch (error) {
       console.error(error);
