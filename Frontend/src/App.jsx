@@ -9,7 +9,7 @@ import LandingPage from "./pages/LandingPage";
 function App() {
   return (
     <>
-      <div className="w-full h-[100vh]">
+      <div className="w-[100vw]">
         <Router>
           <Navbar />
           <Routes>
