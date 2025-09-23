@@ -8,14 +8,14 @@ const LandingPage = () => {
     console.log("user en home", user);
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     console.log("user en home", user);
   }, [user]);
 
   return (
     <>
       <div className="pt-16">
-        <h1>LandingPage {user.email}</h1>
+        <h1>LandingPage {user?.email}</h1>
       </div>
     </>
   );

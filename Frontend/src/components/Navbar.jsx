@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, LogIn } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { AuthContext } from "../contexts/authContext";
 
 export default function Navbar() {
+
+  const {isLogged, urlAvatar ,logout} = useContext(AuthContext);
+
+  useEffect(()=>{
+console.log('isLogged en navbar',isLogged);
+  },[isLogged])
+
   const [open, setOpen] = useState(false);
   const [menuUser, setMenuUser] = useState(false);
-
-  const isLogged = false;
-  const userImage = null;
 
   return (
     <nav className="w-full fixed top-0 left-0 z-50 bg-white text-gray-800 shadow-md">
@@ -21,8 +26,15 @@ export default function Navbar() {
 
           {/* Links desktop */}
           <div className="hidden md:flex space-x-8 items-center">
-            <Link to="/" className="hover:text-blue-500 transition-colors">Inicio</Link>
-            <Link to="/contacto" className="hover:text-blue-500 transition-colors">Contacto</Link>
+            <Link to="/" className="hover:text-blue-500 transition-colors">
+              Inicio
+            </Link>
+            <Link
+              to="/contacto"
+              className="hover:text-blue-500 transition-colors"
+            >
+              Contacto
+            </Link>
 
             {/* Usuario */}
             {!isLogged ? (
@@ -37,11 +49,11 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setMenuUser(!menuUser)}
-                  className="flex items-center focus:outline-none"
+                  className="flex items-center focus:outline-none cursor-pointer"
                 >
                   <img
                     src={
-                      userImage ||
+                      urlAvatar ||
                       "https://ui-avatars.com/api/?name=User&background=3B82F6&color=fff"
                     }
                     alt="avatar"
@@ -74,10 +86,7 @@ export default function Navbar() {
                         Ajustes
                       </Link>
                       <button
-                        onClick={() => {
-                          setMenuUser(false);
-                          console.log("Cerrar sesión");
-                        }}
+                        onClick={logout}
                         className="w-full text-left px-4 py-3 hover:bg-red-50 text-red-500 transition"
                       >
                         Cerrar sesión
@@ -130,13 +139,25 @@ export default function Navbar() {
             transition={{ duration: 0.25 }}
             className="md:hidden px-6 py-4 space-y-4 bg-white text-gray-800 shadow-lg"
           >
-            <Link to="/" onClick={() => setOpen(false)} className="block hover:text-blue-500">
+            <Link
+              to="/"
+              onClick={() => setOpen(false)}
+              className="block hover:text-blue-500"
+            >
               Inicio
             </Link>
-            <Link to="/servicios" onClick={() => setOpen(false)} className="block hover:text-blue-500">
+            <Link
+              to="/servicios"
+              onClick={() => setOpen(false)}
+              className="block hover:text-blue-500"
+            >
               Servicios
             </Link>
-            <Link to="/contacto" onClick={() => setOpen(false)} className="block hover:text-blue-500">
+            <Link
+              to="/contacto"
+              onClick={() => setOpen(false)}
+              className="block hover:text-blue-500"
+            >
               Contacto
             </Link>
             {!isLogged && (

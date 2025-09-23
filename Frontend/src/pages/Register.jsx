@@ -1,12 +1,41 @@
 import { Link } from "react-router-dom";
 
 const apiUrlGoogle = import.meta.env.VITE_URL_BACKEND_GOOGLE_AUTH;
+const apiUrl = import.meta.env.VITE_URL_BACKEND_API;
 
 const Register = () => {
+
+
+    const { user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+
+    const getUserInfo = async () => {
+      let res = await fetch(`${apiUrl}/users/me`, {
+        credentials: "include",
+      });
+      let resJson = await res.json();
+      if (!resJson) {
+        console.log("Error", resJson);
+        return;
+      } else {
+        console.log("ok", resJson);
+        setUser(resJson?.data || {});
+        navigate('/');
+      }
+    };
+
+    getUserInfo();
+  }, []);
+
+
   const handleBtnGoogle = (urlAuth) => {
     console.log(urlAuth);
     window.location.href = urlAuth;
   };
+
+
   return (
     <div className="pt-16 min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
