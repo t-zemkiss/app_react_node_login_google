@@ -1,22 +1,33 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/authContext";
 
 const apiUrlGoogle = import.meta.env.VITE_URL_BACKEND_GOOGLE_AUTH;
 const apiUrl = import.meta.env.VITE_URL_BACKEND_API;
 
 const Login = () => {
+  const { user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
 
-   fetch(`${apiUrl}/users/me`,{
-    credentials:'include',
-   })
-   .then(res=>res.json())
-   .then(data=>
-    console.log('data',data)
-   );
+    const getUserInfo = async () => {
+      let res = await fetch(`${apiUrl}/users/me`, {
+        credentials: "include",
+      });
+      let resJson = await res.json();
+      if (!resJson) {
+        console.log("Error", resJson);
+        return;
+      } else {
+        console.log("ok", resJson);
+        setUser(resJson?.data || {});
+        navigate('/');
+      }
+    };
 
-  },[]);
+    getUserInfo();
+  }, []);
 
 
   const handleBtnGoogle = (urlAuth) => {
